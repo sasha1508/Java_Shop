@@ -5,6 +5,8 @@ import java.util.Comparator;
 import java.util.ArrayDeque;
 import java.util.PriorityQueue;
 import java.util.Random;
+import java.io.*;
+import java.nio.charset.StandardCharsets;
 
 public class Shop {
 
@@ -31,11 +33,14 @@ public class Shop {
             queue1.add(toyID);
         }
 
+        String saveString = "";
         for (int i = 0; i < 10; i++) {
             String queue1String = queue1.pollFirst();
-            //System.out.println(queue1String);
-            Toy.PrintFromId(queue1String, queue);
+            saveString += Toy.PrintFromId(queue1String, queue) + "\r\n";
+            //Toy.Save(queue1String;
+            //System.out.print(saveString);
         }
+        Toy.Save(saveString);
     }
 
     // Очистка консоли:
@@ -104,9 +109,28 @@ class Toy {
         return "0";
     }
 
-    public static void PrintFromId(String id, PriorityQueue<Toy> queue){
+    public static String PrintFromId(String id, PriorityQueue<Toy> queue){
+        String saveString = "";
         for (Toy toy : queue) {
-            if(id.equals(toy.id)) System.out.println("id: " + id + " - " + toy.name);
+            if(id.equals(toy.id)) {
+                saveString = "id: " + id + " - " + toy.name;
+                System.out.println(saveString);
+            }
         } 
+        return saveString;
+    }
+
+    public static void Save(String saveString)
+    {
+        File file = new File("Toys.txt");
+
+        try (Writer out = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(file), StandardCharsets.UTF_8))) {
+            out.append(saveString)
+                .append("\r\n");
+
+            out.flush();
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
     }
 }
