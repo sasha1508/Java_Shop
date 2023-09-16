@@ -5,6 +5,7 @@ import java.util.Comparator;
 import java.util.ArrayDeque;
 import java.util.PriorityQueue;
 import java.util.Random;
+import java.util.Scanner;
 import java.io.*;
 import java.nio.charset.StandardCharsets;
 
@@ -16,9 +17,18 @@ public class Shop {
         PriorityQueue<Toy> queue = new PriorityQueue<>(new ToyComparator());   //очередь с приоритетом
         ArrayDeque<String> queue1 = new ArrayDeque<String>();  //общая очередь
         
-        Toy toy1 = Toy.Put("1 2 Конструктор");
-        Toy toy2 = Toy.Put("2 2 Робот");
-        Toy toy3 = Toy.Put("3 6 Кукла");
+        Scanner in = new Scanner(System.in, "866");
+        System.out.print("1 - Введи через пробел вес и название игрушки (пример: \"2 Конструктор\"): ");
+        String toy1String = "1 " + in.nextLine();
+        System.out.print("2 - Введи через пробел вес и название игрушки (пример: \"2 Конструктор\"): ");
+        String toy2String = "2 " + in.nextLine();
+        System.out.print("3 - Введи через пробел вес и название игрушки (пример: \"2 Конструктор\"): ");
+        String toy3String = "3 " + in.nextLine();
+        in.close();
+
+        Toy toy1 = Toy.Put(toy1String);
+        Toy toy2 = Toy.Put(toy2String);
+        Toy toy3 = Toy.Put(toy3String);
 
         queue.add(toy1);
         queue.add(toy2);
@@ -101,11 +111,11 @@ class Toy {
         int f2 = Integer.parseInt(array2[1]);
         int f3 = Integer.parseInt(array3[1]);
         Random rand = new Random();
-        int random = rand.nextInt(10);
+        int random = rand.nextInt(f1 + f2 + f3);
+
         if(random >= 0 && random < f1) {return "1";}
         else if(random >= f1 && random < (f1 + f2)) {return "2";}
         else if(random >= (f1 + f2)  && random < (f1 + f2 + f3)) {return "3";}
-
         return "0";
     }
 
